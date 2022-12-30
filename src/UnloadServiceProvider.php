@@ -11,8 +11,9 @@ class UnloadServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__ . '/../worker.php' => $this->app->basePath('worker.php'),
-                __DIR__ . '/../autoload.php' => $this->app->basePath('autoload.php'),
+                __DIR__ . '/../runtime/worker.php' => $this->app->basePath('worker.php'),
+                __DIR__ . '/../runtime/cli.php' => $this->app->basePath('cli.php'),
+                __DIR__ . '/../runtime/web.php' => $this->app->basePath('web.php'),
             ], 'unload');
         }
     }

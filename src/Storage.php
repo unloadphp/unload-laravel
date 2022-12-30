@@ -6,6 +6,10 @@ class Storage
 {
     public static function create(): void
     {
+        if (is_dir('/tmp/storage/app')) {
+            return;
+        }
+
         array_map(static function ($folder) {
             if (! is_dir($folder)) {
                 mkdir($folder, 0755, true);
@@ -17,5 +21,7 @@ class Storage
             '/tmp/storage/bootstrap/cache',
             '/tmp/storage/framework/views',
         ]);
+
+        exec('cd /tmp/storage/framework/views; cp -s /var/task/storage/framework/views/* .');
     }
 }

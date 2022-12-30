@@ -1,15 +1,19 @@
 <?php
 
-use Unload\Laravel\Environment;
-use Unload\Laravel\Storage;
-
 ini_set('display_errors', '1');
 
 error_reporting(E_ALL);
 
-if (! file_exists('/tmp/opcache')) {
-    mkdir('/tmp/opcache');
-}
+/*
+|--------------------------------------------------------------------------
+| Register The Auto Loader
+|--------------------------------------------------------------------------
+|
+| Composer provides a convenient, automatically generated class loader for
+| this application. We just need to utilize it! We'll simply require it
+| into the script here so we don't need to manually load our classes.
+|
+*/
 
 require __DIR__.'/vendor/autoload.php';
 
@@ -23,7 +27,7 @@ require __DIR__.'/vendor/autoload.php';
 |
 */
 
-Storage::create();
+Unload\Laravel\Storage::create();
 
 /*
 |--------------------------------------------------------------------------
@@ -49,4 +53,23 @@ $app = require_once __DIR__.'/bootstrap/app.php';
 |
 */
 
-Environment::boot($app);
+Unload\Laravel\Environment::boot($app);
+
+/*
+|--------------------------------------------------------------------------
+| Run The Application
+|--------------------------------------------------------------------------
+|
+| Once we have the application, we can handle the incoming request using
+| the application's HTTP kernel. Then, we will send the response back
+| to this client's browser, allowing them to enjoy our application.
+|
+*/
+
+$kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
+
+$response = $kernel->handle(
+    $request = Illuminate\Http\Request::capture()
+)->send();
+
+$kernel->terminate($request, $response);

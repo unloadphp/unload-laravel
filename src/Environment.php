@@ -13,7 +13,7 @@ use Illuminate\Encryption\Encrypter;
 
 class Environment
 {
-    public static function boot($app): void
+    public static function  boot($app): void
     {
         if (!file_exists($_ENV['APP_CONFIG_CACHE'])) {
             $stderr = fopen('php://stderr', 'w');
